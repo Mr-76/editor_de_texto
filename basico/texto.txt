@@ -1,0 +1,11 @@
+R - replace more than one character, until ESC is pressed.
+J - join line below to the current one with one space in between
+gJ - join line below to the current one without space in between
+gwip - reflow paragraph
+g~ - switch case up to motion
+gu - change to lowercase up to motion
+gU - change to uppercase up to motion
+cc - change (replace) entire line
+C - change (replace) to the end of the line
+c$ - change (replace) to the end of the line
+ciw - change (replace) entire word ta eh a linha 
