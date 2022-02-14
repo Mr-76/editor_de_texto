@@ -7,8 +7,8 @@
 int main(){
 	
 	FILE *myfile_open;
-	
-	char d[] = "";
+	long places_d = 0;
+	char d[1048576];
 	char salvad[1024];
 	char c;
 	char edita_linha[1024];
@@ -28,14 +28,11 @@ int main(){
 	}
 	
 	while((c = getc(myfile_open)) != EOF){
-		h[num] = c;
+		b[num2][num] = c; 
 		if(c == '\n'){
 			lines++; //conta numero de linha do arquivo
-			
-			strcpy(b[num2],h);//copiar conteudo de h uma string para b uma array 2d [[string1],[string2],etc]
 			num = -1;
 			num2++;	
-			memset(h,0,sizeof(h)); //limpar h 
 		}
 	
 		num++;
@@ -48,11 +45,6 @@ int main(){
 	}
 	
 
-
-	for(int i = 0;i<lines;i++){ //junta d string com cada uma das strings em b
-		strcat(d,b[i]);
-	}
-	
 	
 //	printf("printando salvad%s",salvad); // problema :> 
 	
@@ -70,13 +62,16 @@ int main(){
 		printf("entrou\n");
 		if(seleciona_linha != 0){
 			seleciona_linha--; //indice de linha correto 
-
 			strcpy(b[seleciona_linha],edita_linha);
 			memset(d,0,sizeof(d));
-			for(int i = 0;i<lines;i++){
-				strcat(d,b[i]);
-			}
-		}
+			for(int i = 0;i < lines;i++){
+				for(int conta = 0;conta<sizeof(b[0]);conta++){
+					d[places_d] = b[i][conta];
+					places_d++;
+				}
+			}		
+		}	
+	
 		myfile_open = fopen("texto2.txt","w");
 
 		if(myfile_open == NULL){
@@ -85,17 +80,14 @@ int main(){
 		
 		}
 
-		for(int i =0;d[i];i++){
+		for(int i =0;i<sizeof(d);i++){
 			putc(d[i],myfile_open);
 		}
-		
+			
 		return 0;
 	}
 
 	else{
 		return 0;
-
-	
-
 	}
 }
