@@ -8,7 +8,7 @@ int main(){
 	
 	FILE *myfile_open;
 	long places_d = 0;
-	char d[1048576];
+	char string_arquivo[1048576];
 	char salvad[1024];
 	char c;
 	char edita_linha[1024];
@@ -30,7 +30,7 @@ int main(){
 	while((c = getc(myfile_open)) != EOF){
 		b[num2][num] = c; 
 		if(c == '\n'){
-			lines++; //conta numero de linha do arquivo
+			lines++; //coluna numero de linha do arquivo
 			num = -1;
 			num2++;	
 		}
@@ -39,7 +39,7 @@ int main(){
 	}
 	fclose(myfile_open);
 	
-	for(int i = 0;i<lines;i++){
+	for(int i = 0; i < lines; i ++){
 		
 		printf("|%d| %s \n",i+1,b[i]);	// pritando para o usuario o arquivo
 	}
@@ -62,26 +62,34 @@ int main(){
 		printf("entrou\n");
 		if(seleciona_linha != 0){
 			seleciona_linha--; //indice de linha correto 
+			memset(b[seleciona_linha],0,sizeof(b[0]));
 			strcpy(b[seleciona_linha],edita_linha);
-			memset(d,0,sizeof(d));
-			for(int i = 0;i < lines;i++){
-				for(int conta = 0;conta<sizeof(b[0]);conta++){
-					d[places_d] = b[i][conta];
-					places_d++;
+			memset(string_arquivo,0,sizeof(string_arquivo));
+			for(int linha = 0;linha < lines;linha++){
+				//palaces_d = chars de d para arquivo
+				for(int coluna = 0;coluna<sizeof(b[0]);coluna++){
+					if((b[linha][coluna]) == '\000'){
+						//string_arquivo[places_d] = b[i][coluna];
+						//string_arquivo[places_d] = '-';
+						places_d++;
+						break;
+					}
+					else{
+						string_arquivo[places_d] = b[linha][coluna];
+						places_d++;	
+					}
 				}
-			}		
-		}	
-	
+			}
+		}
 		myfile_open = fopen("texto2.txt","w");
 
 		if(myfile_open == NULL){
 		printf("not workin");
 		exit(1);
-		
 		}
 
-		for(int i =0;i<sizeof(d);i++){
-			putc(d[i],myfile_open);
+		for(int caractere = 0; caractere <sizeof(string_arquivo);caractere++){
+			putc(string_arquivo[caractere],myfile_open);
 		}
 			
 		return 0;
